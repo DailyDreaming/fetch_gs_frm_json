@@ -1,5 +1,5 @@
 # Download Google Bucket Inputs from a JSON
-For a json containing gs:// bucket paths, for example:
+For a json containing `gs://` bucket paths, for example:
 
 ```
 {
