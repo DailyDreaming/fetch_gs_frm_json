@@ -1,28 +1,62 @@
 import os
-import subprocess
 import sys
+import subprocess
+import json
+from six import iteritems
 
-def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
-    gs_list_filename = 'gs_files.txt'
-    with open(input_json, 'r') as f1:
-        for line in f1:
-            if '"gs://' in line:
-                edited_line = line[line.find('gs://'):].strip().strip(',').strip('"')
-                print(edited_line)
-                with open(gs_list_filename, 'a+') as f2:
-                    f2.write(edited_line)
-                    f2.write('\n')
-    print('Importing gs files from: ' + str(sys.argv[1]))
+gs_filelist = []
+
+def new_local_path(gsfilepath):
+    """Stores the gs path in a list and returns a path local to the cwd."""
+    gs_filelist.append(gsfilepath)
+    return os.path.join(os.getcwd(), os.path.basename(gsfilepath))
+
+def gs_to_local(input):
+    """
+    Expects a json-like dictionary as input.
+    Replaces the input's gs:// paths with paths local to cwd and returns the modified input.
+    These gs:// paths are stored as a list for later downloading.
+    """
+    if isinstance(input, basestring):
+        if input.startswith('gs://'):
+            return new_local_path(input)
+        else:
+            return input
+    if isinstance(input, list):
+        j = []
+        for i in input:
+            j.append(gs_to_local(i))
+        return j
+    elif isinstance(input, dict):
+        for k, v in iteritems(input):
+            input[k] = gs_to_local(v)
+        return input
+
+def strip_gsfiles_from_json_n_dl_locally(input_json='/home/quokka/Desktop/deletewes/workflow-service/testdata/topmed-alignment.sample.json', outputdir='.'):
+    """
+    Opens a json, finds and downloads all gs:// filepaths within it, and creates a new json
+    containing local paths to the newly downloaded gs:// files.
+    """
+    with open(input_json, 'r') as json_data:
+        json_dict = json.load(json_data)
+        new_json = gs_to_local(json_dict)
+
+    with open(input_json + '.new', 'w') as f:
+        f.write(new_json)
+        f.write('\n')
+
+    gs_list_filename = os.path.join(os.getcwd(), 'gs_fetch_file.txt')
+    with open(gs_list_filename, 'w') as f:
+        for g in set(gs_filelist):
+            f.write(g)
+            f.write('\n')
+
+    print('Importing gs files from: ' + str(input_json))
     print('Into the cwd: ' + str(os.getcwd()))
 
     # fetch everything with gsutil
     cmd = 'cat {} | gsutil -m cp -I {}'.format(gs_list_filename, outputdir)
+    print('With the command: ' + str(cmd))
+    subprocess.call(cmd, shell=True)
 
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate() # block until done
-    with open('gsutil_stderr.log', 'w') as f:
-        f.write(stdout)
-        f.write('\n\n\n')
-        f.write(stderr)
-
-strip_gsfiles_from_json_n_dl_locally(sys.argv[1])
+strip_gsfiles_from_json_n_dl_locally(input_json=sys.argv[1])
