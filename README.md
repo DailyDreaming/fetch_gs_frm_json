@@ -26,6 +26,6 @@ If the path to this script is: `/usr/local/bin/dl_gsfiles_frm_json.py` then a co
 
 `gs_json() { python /usr/local/bin/dl_gsfiles_frm_json.py "$1"; }`
 
-Then simple run anytime using:
+Then simply run anytime using:
 
 `gs_json <path-to-json-file>`
