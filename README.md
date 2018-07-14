@@ -19,7 +19,8 @@ This script will:
 2. Output a new json modified to contain the new local paths.
 
 To run:
-    `python dl_gsfiles_frm_json.py <path-to-json-file>`
+
+`python dl_gsfiles_frm_json.py <path-to-json-file>`
 
 If the path to this script is:
 
