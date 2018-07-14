@@ -45,7 +45,7 @@ def gs_to_local(input):
             input[k] = gs_to_local(v)
         return input
 
-def strip_gsfiles_from_json_n_dl_locally(input_json='/home/quokka/Desktop/deletewes/workflow-service/testdata/topmed-alignment.sample.json', outputdir='.'):
+def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
     """
     Opens a json, finds and downloads all gs:// filepaths within it, and creates a new json
     containing local paths to the newly downloaded gs:// files.
