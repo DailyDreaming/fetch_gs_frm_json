@@ -6,7 +6,7 @@ from six import iteritems
 
 """
 Store this script somewhere intuitive, for example:
-sudo nano /usr/local/bin/dl_gsfiles_frm_json.py
+/usr/local/bin/dl_gsfiles_frm_json.py
 
 Then call anytime by writing the following to '~/.bashrc':
 gs_json() { python /usr/local/bin/dl_gsfiles_frm_json.py "$1"; }
