@@ -4,6 +4,14 @@ import subprocess
 import json
 from six import iteritems
 
+"""
+Store this script somewhere intuitive, for example:
+sudo nano /usr/local/bin/dl_gsfiles_frm_json.py
+
+Then call anytime by writing the following to '~/.bashrc':
+gs_json() { python /usr/local/bin/dl_gsfiles_frm_json.py "$1"; }
+"""
+
 gs_filelist = []
 
 def new_local_path(gsfilepath):
@@ -42,7 +50,7 @@ def strip_gsfiles_from_json_n_dl_locally(input_json='/home/quokka/Desktop/delete
         new_json = gs_to_local(json_dict)
 
     with open(input_json + '.new', 'w') as f:
-        f.write(new_json)
+        f.write(str(new_json))
         f.write('\n')
 
     gs_list_filename = os.path.join(os.getcwd(), 'gs_fetch_file.txt')
