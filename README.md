@@ -1,4 +1,4 @@
-# fetch_gs_frm_json
+# Download Google Bucket Inputs from a JSON
 For a json containing gs:// bucket paths, for example:
 
 ```
