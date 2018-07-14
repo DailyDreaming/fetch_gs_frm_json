@@ -55,7 +55,7 @@ def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
         new_json = gs_to_local(json_dict)
 
     with open(input_json + '.new', 'w') as f:
-        json.dump(str(new_json), f)
+        json.dump(new_json, f)
 
     gs_list_filename = os.path.join(os.getcwd(), 'gs_fetch_file.txt')
     with open(gs_list_filename, 'w') as f:
