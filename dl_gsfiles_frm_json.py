@@ -65,6 +65,7 @@ def strip_gsfiles_from_json_n_dl_locally(input_json='/home/quokka/Desktop/delete
     # fetch everything with gsutil
     cmd = 'cat {} | gsutil -m cp -I {}'.format(gs_list_filename, outputdir)
     print('With the command: ' + str(cmd))
+    print('New json with local paths created: ' + str(input_json + '.new'))
     subprocess.call(cmd, shell=True)
 
 strip_gsfiles_from_json_n_dl_locally(input_json=sys.argv[1])
