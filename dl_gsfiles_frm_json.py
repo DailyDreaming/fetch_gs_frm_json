@@ -5,6 +5,10 @@ import json
 from six import iteritems
 
 """
+Call this on a json containing gs:// bucket paths and it will download them all
+locally and produce a new json file (alongside the old one) containing local
+paths to those files instead.
+
 Store this script somewhere intuitive, for example:
 /usr/local/bin/dl_gsfiles_frm_json.py
 
