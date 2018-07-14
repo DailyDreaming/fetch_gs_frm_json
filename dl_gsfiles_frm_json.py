@@ -21,8 +21,9 @@ def new_local_path(gsfilepath):
 
 def gs_to_local(input):
     """
-    Expects a json-like dictionary as input.
     Replaces the input's gs:// paths with paths local to cwd and returns the modified input.
+
+    Expects a json-like dictionary as input.
     These gs:// paths are stored as a list for later downloading.
     """
     if isinstance(input, basestring):
