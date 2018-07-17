@@ -33,8 +33,6 @@ def gs_to_local(input):
     if isinstance(input, basestring):
         if input.startswith('gs://'):
             return new_local_path(input)
-        else:
-            return input
     if isinstance(input, list):
         j = []
         for i in input:
@@ -44,6 +42,7 @@ def gs_to_local(input):
         for k, v in iteritems(input):
             input[k] = gs_to_local(v)
         return input
+    return input
 
 def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
     """
