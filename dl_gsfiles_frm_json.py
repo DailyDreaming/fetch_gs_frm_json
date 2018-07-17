@@ -41,7 +41,6 @@ def gs_to_local(input):
     elif isinstance(input, dict):
         for k, v in iteritems(input):
             input[k] = gs_to_local(v)
-        return input
     return input
 
 def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
