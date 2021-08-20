@@ -20,7 +20,9 @@ This script will:
 
 To run:
 
-`python dl_gsfiles_frm_json.py <path-to-json-file>`
+`python2 dl_gsfiles_frm_json.py <path-to-json-file> <user-project>`
+
+The last argument is optional. Passing a user project is required if the data is in a requester-pays bucket.
 
 If the path to this script is: `/usr/local/bin/dl_gsfiles_frm_json.py` then a convenient alias can be created in `~/.bashrc` by adding:
 
