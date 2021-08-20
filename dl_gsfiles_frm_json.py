@@ -43,11 +43,12 @@ def gs_to_local(input):
             input[k] = gs_to_local(v)
     return input
 
-def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
+def strip_gsfiles_from_json_n_dl_locally(input_json, project=None):
     """
     Opens a json, finds and downloads all gs:// filepaths within it, and creates a new json
     containing local paths to the newly downloaded gs:// files.
     """
+    outputdir='.'
     with open(input_json, 'r') as json_data:
         json_dict = json.load(json_data)
         new_json = gs_to_local(json_dict)
@@ -65,10 +66,18 @@ def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
     print('Into the cwd: ' + str(os.getcwd()))
 
     # fetch everything with gsutil
-    cmd = 'cat {} | gsutil -m cp -I {}'.format(gs_list_filename, outputdir)
+    if project==None:
+        cmd = 'cat {} | gsutil -m cp -I {}'.format(gs_list_filename, outputdir)
+    else:
+        cmd = 'cat {} | gsutil -m -u {} cp -I {}'.format(gs_list_filename, project, outputdir)
     print('With the command: ' + str(cmd))
     print('New json with local paths created: ' + str(input_json + '.new'))
     print('\n')
     subprocess.call(cmd, shell=True)
 
-strip_gsfiles_from_json_n_dl_locally(input_json=sys.argv[1])
+try:
+    strip_gsfiles_from_json_n_dl_locally(input_json=sys.argv[1], project=sys.argv[2])
+except IndexError:
+    strip_gsfiles_from_json_n_dl_locally(input_json=sys.argv[1])
+
+
