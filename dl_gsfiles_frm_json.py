@@ -1,9 +1,3 @@
-import os
-import sys
-import subprocess
-import json
-from six import iteritems
-
 """
 Call this on a json containing gs:// bucket paths and it will download them all
 locally and produce a new json file (alongside the old one) containing local
@@ -15,13 +9,21 @@ Store this script somewhere intuitive, for example:
 Then call anytime by writing the following to '~/.bashrc':
 gs_json() { python /usr/local/bin/dl_gsfiles_frm_json.py "$1"; }
 """
+import os
+import sys
+import subprocess
+import json
+from six import iteritems
+
 
 gs_filelist = []
+
 
 def new_local_path(gsfilepath):
     """Stores the gs path in a list and returns a path local to the cwd."""
     gs_filelist.append(gsfilepath)
     return os.path.join(os.getcwd(), os.path.basename(gsfilepath))
+
 
 def gs_to_local(input):
     """
@@ -42,6 +44,7 @@ def gs_to_local(input):
         for k, v in iteritems(input):
             input[k] = gs_to_local(v)
     return input
+
 
 def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
     """
@@ -70,5 +73,6 @@ def strip_gsfiles_from_json_n_dl_locally(input_json, outputdir='.'):
     print('New json with local paths created: ' + str(input_json + '.new'))
     print('\n')
     subprocess.call(cmd, shell=True)
+
 
 strip_gsfiles_from_json_n_dl_locally(input_json=sys.argv[1])
